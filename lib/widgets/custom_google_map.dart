@@ -31,10 +31,14 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   Widget build(BuildContext context) {
     return Stack(children: [
       GoogleMap(
+        mapType: MapType.normal,
+
         onMapCreated: (controller) {
           googleMapController = controller;
+          initmapStyle();
         },
         initialCameraPosition: initialCameraPosition,
+
         // cameraTargetBounds: CameraTargetBounds(
         //   LatLngBounds(
         //     southwest: LatLng(30.470420322335038, 31.25247963643909),
@@ -44,8 +48,8 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
       ),
       Positioned(
         bottom: 16,
-        left: 16,
-        right: 16,
+        left: 20,
+        right: 20,
         child: ElevatedButton(
           onPressed: () {
             CameraPosition newLocation = CameraPosition(
@@ -63,5 +67,11 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
         ),
       )
     ]);
+  }
+
+  void initmapStyle() async {
+    var nightMapStyle = await DefaultAssetBundle.of(context)
+        .loadString('assets/map_styles/night_map_style.json');
+    googleMapController.setMapStyle(nightMapStyle);
   }
 }
